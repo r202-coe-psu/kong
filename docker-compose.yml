@@ -1,0 +1,76 @@
+version: '3'
+services:
+    mongodb:
+        image: mongo
+        container_name: kong-mongodb
+        volumes:
+            - ../deployment/kong/mongodb/data/db:/data/db
+            - /etc/localtime:/etc/localtime:ro
+        restart: always
+        networks:
+            - default
+        logging:
+            options:
+                max-size: "10m"
+                max-file: "3"
+    # redis:
+    #     image: redis
+    #     container_name: kong-redis
+    #     restart: always
+    #     networks:
+    #         - default
+    #     logging:
+    #         options:
+    #             max-size: "10m"
+    #             max-file: "3"
+    web:
+        build: .
+        image: kong-image
+        container_name: kong-web
+        volumes:
+            - ../deployment:/deployment
+            - /etc/localtime:/etc/localtime:ro
+        ports:
+            - 10080:9000
+        links:
+            - mongodb
+        depends_on:
+            - mongodb
+        networks:
+            - default
+        restart: on-failure:5
+        environment:
+            kong_SETTINGS: /app/.env
+        env_file:
+            - .env
+        command:
+          /venv/bin/gunicorn -w 2 --bind 0.0.0.0:9000 "kong.web:create_app()"
+        logging:
+            options:
+                max-size: "10m"
+                max-file: "3"
+    # worker:
+    #     build: .
+    #     image: kong-image
+    #     container_name: kong-worker
+    #     volumes:
+    #         - ../deployment:/deployment
+    #         - /etc/localtime:/etc/localtime:ro
+    #     depends_on:
+    #         - mongodb
+    #         - redis
+    #     links:
+    #         - mongodb
+    #         - redis
+    #     restart: always
+    #     environment:
+    #         KONG_SETTINGS: /app/kong-production.cfg
+    #     command:
+    #         /venv/bin/kong-worker
+    #     logging:
+    #         options:
+    #             max-size: "10m"
+    #             max-file: "3"
+
+networks:
+    default:

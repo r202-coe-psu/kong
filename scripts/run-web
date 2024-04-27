@@ -1,0 +1,3 @@
+#!/bin/sh
+KONG_SETTINGS=$(pwd)/.env DEBUG=1 kong-web -H 0.0.0.0 -d
+

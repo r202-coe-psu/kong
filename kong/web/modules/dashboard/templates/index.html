@@ -1,0 +1,9 @@
+{% extends '/base/default-dashboard.html' %}
+
+{% block content %}
+  <div class="ui segment">
+    <a class="ui button primary icon" href="{{ url_for('kongs.index') }}"><i class="yin yang icon"></i> kong</a>
+    <a class="ui button primary icon" href="{{ url_for('shrines.index') }}"><i class="torii gate icon"></i> Shrine</a>
+    <a class="ui button primary icon" href="{{ url_for('gimsins.index') }}"><i class="user tag icon"></i> GimSin</a>
+  </div>
+{% endblock %}
