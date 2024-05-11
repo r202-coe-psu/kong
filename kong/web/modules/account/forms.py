@@ -13,7 +13,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
 from flask_mongoengine.wtf import model_form
 
-from ... import models
+from ..user import models
 
 ROLES = [
     "admin",
@@ -64,7 +64,7 @@ def validate_username(form, field):
 
 
 BaseProfileForm = model_form(
-    models.users.User,
+    models.User,
     FlaskForm,
     exclude=[
         "created_date",

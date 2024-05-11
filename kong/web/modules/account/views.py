@@ -19,7 +19,7 @@ from .... import models
 from ... import oauth2
 from ... import forms
 
-module = Blueprint("accounts", __name__)
+module = Blueprint("accounts", __name__, template_folder="tempaltes")
 
 
 def get_user_and_remember():

@@ -2,11 +2,9 @@ import datetime
 
 import mongoengine as me
 
-from . import users
-
 
 class OAuth2Token(me.Document):
-    user = me.ReferenceField(users.User, dbref=True)
+    user = me.ReferenceField("User", dbref=True)
     name = me.StringField(required=True)
 
     token_type = me.StringField()

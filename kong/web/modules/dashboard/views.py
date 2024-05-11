@@ -6,7 +6,9 @@ from ... import forms
 
 import datetime
 
-module = Blueprint("dashboard", __name__, url_prefix="/dashboard")
+module = Blueprint(
+    "dashboard", __name__, url_prefix="/dashboard", template_folder="templates"
+)
 
 
 @module.route("/admin")
